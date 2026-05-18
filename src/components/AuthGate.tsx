@@ -7,7 +7,7 @@ interface AuthGateProps {
 }
 
 export function AuthGate({ children }: AuthGateProps) {
-  const { status, errorMessage, retry } = useAuth()
+  const { status, errorMessage, errorDetails, retry } = useAuth()
 
   if (status === 'loading') {
     return (
@@ -34,6 +34,9 @@ export function AuthGate({ children }: AuthGateProps) {
       <div className="auth-state auth-state--error" role="alert">
         <h1>Erro de autenticação</h1>
         <p>{errorMessage ?? 'Não foi possível validar a sessão.'}</p>
+        {errorMessage === 'Resposta de sessão inválida' && errorDetails ? (
+          <pre className="auth-state__response">{errorDetails}</pre>
+        ) : null}
         <button type="button" onClick={retry}>
           Tentar novamente
         </button>

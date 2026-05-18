@@ -16,6 +16,7 @@ export interface AuthContextValue {
   status: AuthStatus
   user: SessionUser | null
   errorMessage: string | null
+  errorDetails: string | null
   retry: () => void
 }
 
@@ -25,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('loading')
   const [user, setUser] = useState<SessionUser | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [errorDetails, setErrorDetails] = useState<string | null>(null)
   const [attempt, setAttempt] = useState(0)
 
   const retry = useCallback(() => {
@@ -37,6 +39,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     async function load() {
       setStatus('loading')
       setErrorMessage(null)
+      setErrorDetails(null)
       setUser(null)
 
       try {
@@ -60,6 +63,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             ? error.message
             : 'Erro ao validar sessão',
         )
+        setErrorDetails(
+          error instanceof ApiError ? (error.details ?? null) : null,
+        )
       }
     }
 
@@ -71,8 +77,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [attempt])
 
   const value = useMemo<AuthContextValue>(
-    () => ({ status, user, errorMessage, retry }),
-    [status, user, errorMessage, retry],
+    () => ({ status, user, errorMessage, errorDetails, retry }),
+    [status, user, errorMessage, errorDetails, retry],
   )
 
   return (

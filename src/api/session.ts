@@ -1,6 +1,6 @@
 import { env } from '../config/env'
 import type { SessionUser } from '../types/session'
-import { ApiError, apiFetch } from './client'
+import { ApiError, apiFetch, formatResponsePayload } from './client'
 
 export async function fetchSession(): Promise<SessionUser> {
   const response = await apiFetch(env.sessionPath)
@@ -24,7 +24,11 @@ export async function fetchSession(): Promise<SessionUser> {
     !('id' in data) ||
     (typeof data.id !== 'string' && typeof data.id !== 'number')
   ) {
-    throw new ApiError('Resposta de sessão inválida', 500)
+    throw new ApiError(
+      'Resposta de sessão inválida',
+      500,
+      formatResponsePayload(data),
+    )
   }
 
   return data as SessionUser

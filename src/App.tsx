@@ -1,3 +1,4 @@
+import { formatResponsePayload } from './api/client'
 import { useAuth } from './auth/useAuth'
 import './App.css'
 
@@ -11,8 +12,27 @@ function App() {
         Módulo em desenvolvimento — esta página será substituída pelas telas do
         projeto.
       </p>
-      {user?.name ? (
-        <p className="greeting">Olá, {user.name}</p>
+      {user ? (
+        <section className="session-debug" aria-label="Dados da sessão">
+          <div className="session-debug__block">
+            <h2 className="session-debug__label">SessionUser</h2>
+            <pre className="session-debug__payload">
+              {formatResponsePayload(user)}
+            </pre>
+          </div>
+          <div className="session-debug__block">
+            <h2 className="session-debug__label">SessionRole</h2>
+            <pre className="session-debug__payload">
+              {formatResponsePayload(user.roles ?? [])}
+            </pre>
+          </div>
+          <div className="session-debug__block">
+            <h2 className="session-debug__label">SessionPermission</h2>
+            <pre className="session-debug__payload">
+              {formatResponsePayload(user.permissions ?? [])}
+            </pre>
+          </div>
+        </section>
       ) : null}
     </main>
   )
