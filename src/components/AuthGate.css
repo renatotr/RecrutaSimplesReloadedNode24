@@ -1,0 +1,44 @@
+.auth-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  max-width: 28rem;
+  margin: 0 auto;
+}
+
+.auth-state h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.auth-state p {
+  margin: 0;
+  color: var(--text);
+}
+
+.auth-state--denied h1 {
+  color: #b45309;
+}
+
+.auth-state--error h1 {
+  color: #b91c1c;
+}
+
+.auth-state button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--border, #d1d5db);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-h);
+}
+
+.auth-state button:hover {
+  background: var(--code-bg, #f3f4f6);
+}

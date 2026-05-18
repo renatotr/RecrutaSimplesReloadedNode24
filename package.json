@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:system-ca": "NODE_OPTIONS=--use-system-ca vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
