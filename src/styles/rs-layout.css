@@ -1,0 +1,209 @@
+/* Layout shell — job / settings page pattern */
+
+.rs-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--rs-page-bg);
+  font-family: var(--rs-font);
+  color: var(--rs-body-text);
+}
+
+.rs-page__inner {
+  flex: 1;
+  padding: 0.75rem 1rem 1.5rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.rs-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin: 0 0 0.65rem;
+  padding: 0;
+  font-size: 0.8125rem;
+  color: var(--rs-link-muted);
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.rs-back-link:hover {
+  color: var(--rs-link-hover);
+  text-decoration: underline;
+}
+
+.rs-card {
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-tab-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Dark banner */
+.rs-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem 1.5rem;
+  padding: 1rem 1.25rem 1.1rem;
+  background: var(--rs-banner-bg);
+  color: var(--rs-banner-text);
+}
+
+.rs-banner__main {
+  flex: 1;
+  min-width: 12rem;
+}
+
+.rs-banner__title {
+  margin: 0 0 0.65rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--rs-banner-text);
+}
+
+.rs-banner__label {
+  margin: 0 0 0.2rem;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--rs-banner-label);
+}
+
+.rs-banner__meta {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--rs-banner-text-muted);
+  line-height: 1.4;
+}
+
+.rs-banner__meta-value {
+  font-weight: 400;
+  text-transform: none;
+}
+
+.rs-banner__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  text-align: right;
+}
+
+.rs-banner__status {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--rs-status-danger);
+  text-transform: uppercase;
+}
+
+.rs-banner__link {
+  font-size: 0.75rem;
+  color: var(--rs-banner-text);
+  text-decoration: underline;
+}
+
+.rs-banner__link:hover {
+  color: var(--rs-banner-text-muted);
+}
+
+/* Tab bar */
+.rs-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0;
+  background: var(--rs-tab-bg);
+  border-top: 1px solid var(--rs-tab-border);
+  border-bottom: 1px solid var(--rs-tab-border);
+}
+
+.rs-tabs__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rs-tabs__tab {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.rs-tabs__button {
+  display: block;
+  margin: 0;
+  padding: 0.65rem 1.1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  color: var(--rs-tab-text);
+  background: var(--rs-tab-bg);
+  border: none;
+  border-right: 1px solid var(--rs-tab-divider);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+
+.rs-tabs__button:hover {
+  background: var(--rs-tab-hover-bg);
+}
+
+.rs-tabs__button--active {
+  background: var(--rs-tab-active-bg);
+  font-weight: 600;
+}
+
+.rs-tabs__actions {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 0.35rem 0.75rem;
+}
+
+.rs-tabs__action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--rs-action-teal);
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-action-teal);
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.rs-tabs__action-btn:hover {
+  color: var(--rs-action-teal-hover);
+  border-color: var(--rs-action-teal-hover);
+}
+
+.rs-tabs__action-chevron {
+  font-size: 0.625rem;
+  line-height: 1;
+}
+
+/* Card body (tab content) */
+.rs-card__body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  background: var(--rs-surface);
+}
+
+.rs-card__body--muted {
+  color: var(--rs-body-text-muted);
+  font-size: 0.875rem;
+}

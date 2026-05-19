@@ -1,0 +1,46 @@
+/**
+ * Recruta Simples — design tokens (aligned with legacy job screen).
+ * Use var(--rs-*) across module pages for consistent colors.
+ */
+:root {
+  /* Page & surfaces */
+  --rs-page-bg: #e8e8e8;
+  --rs-surface: #ffffff;
+
+  /* Dark header banner */
+  --rs-banner-bg: #343a40;
+  --rs-banner-text: #ffffff;
+  --rs-banner-text-muted: rgba(255, 255, 255, 0.88);
+  --rs-banner-label: #ffffff;
+
+  /* Status & links */
+  --rs-status-danger: #ff1a1a;
+  --rs-link-muted: #6b7280;
+  --rs-link-hover: #374151;
+
+  /* Tab bar */
+  --rs-tab-bg: #ffffff;
+  --rs-tab-text: #333333;
+  --rs-tab-border: #cccccc;
+  --rs-tab-divider: #d8d8d8;
+  --rs-tab-active-bg: #f5f5f5;
+  --rs-tab-hover-bg: #fafafa;
+
+  /* Actions (outline teal — "Ações" button) */
+  --rs-action-teal: #4db6ac;
+  --rs-action-teal-hover: #3da89e;
+
+  /* Content area */
+  --rs-body-text: #333333;
+  --rs-body-text-muted: #6b7280;
+  --rs-border: #dee2e6;
+  --rs-input-border: #ced4da;
+
+  /* Primary save / confirm */
+  --rs-btn-primary-bg: #4db6ac;
+  --rs-btn-primary-hover: #3da89e;
+  --rs-btn-primary-text: #ffffff;
+
+  /* Typography */
+  --rs-font: 'Segoe UI', system-ui, Roboto, sans-serif;
+}
