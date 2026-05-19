@@ -1,4 +1,4 @@
-.app {
+.page {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
   text-align: center;
 }
 
-.subtitle {
+.page__subtitle {
   max-width: 32rem;
   color: var(--text);
 }

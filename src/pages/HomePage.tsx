@@ -1,14 +1,14 @@
-import { formatResponsePayload } from './api/client'
-import { useAuth } from './auth/useAuth'
-import './App.css'
+import { formatResponsePayload } from '../api/client'
+import { useAuth } from '../auth/useAuth'
+import './HomePage.css'
 
-function App() {
+export function HomePage() {
   const { user } = useAuth()
 
   return (
-    <main className="app">
+    <main className="page">
       <h1>Recruta Simples</h1>
-      <p className="subtitle">
+      <p className="page__subtitle">
         Módulo em desenvolvimento — esta página será substituída pelas telas do
         projeto.
       </p>
@@ -37,5 +37,3 @@ function App() {
     </main>
   )
 }
-
-export default App

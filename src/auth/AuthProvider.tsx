@@ -9,12 +9,17 @@ import {
 import { fetchSession } from '../api/session'
 import { ApiError } from '../api/client'
 import type { SessionUser } from '../types/session'
+import {
+  buildPermissionIndex,
+  type PermissionIndex,
+} from './permissions'
 
 export type AuthStatus = 'loading' | 'authenticated' | 'unauthorized' | 'error'
 
 export interface AuthContextValue {
   status: AuthStatus
   user: SessionUser | null
+  permissionIndex: PermissionIndex | null
   errorMessage: string | null
   errorDetails: string | null
   retry: () => void
@@ -76,9 +81,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [attempt])
 
+  const permissionIndex = useMemo(
+    () => (user ? buildPermissionIndex(user) : null),
+    [user],
+  )
+
   const value = useMemo<AuthContextValue>(
-    () => ({ status, user, errorMessage, errorDetails, retry }),
-    [status, user, errorMessage, errorDetails, retry],
+    () => ({
+      status,
+      user,
+      permissionIndex,
+      errorMessage,
+      errorDetails,
+      retry,
+    }),
+    [status, user, permissionIndex, errorMessage, errorDetails, retry],
   )
 
   return (
