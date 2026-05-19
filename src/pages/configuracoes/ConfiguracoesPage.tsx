@@ -1,20 +1,24 @@
+import { Can } from '../../components/Can'
 import { P } from '../../config/permissions'
-import '../Page.css'
+import { DeactivatePositionsBlock } from './DeactivatePositionsBlock'
+import './ConfiguracoesPage.css'
 
 export function ConfiguracoesPage() {
   return (
-    <main className="page">
-      <h1>Configurações</h1>
-      <p className="page__subtitle">
-        Página de configuração do módulo Recruta Simples.
-      </p>
+    <main className="page page--config">
+      <header className="page__header">
+        <h1>Configurações</h1>
+        <p className="page__subtitle">
+          Gerencie as opções do módulo Recruta Simples. Novos blocos de
+          configuração podem ser adicionados nesta página.
+        </p>
+      </header>
 
-      <section className="page__section">
-        <h2 className="page__section-title">
-          Visível com {P.CONFIGURATION_MAINMENU_READ}
-        </h2>
-        <p>Conteúdo principal da configuração.</p>
-      </section>
+      <div className="config-blocks">
+        <Can permission={P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_READ}>
+          <DeactivatePositionsBlock />
+        </Can>
+      </div>
     </main>
   )
 }
