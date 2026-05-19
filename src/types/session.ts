@@ -16,7 +16,7 @@ export interface SessionPermission {
 }
 
 /** Arbitrary JSON object returned by the legacy API for user settings. */
-export type SessionConfigurations = Record<string, unknown>
+export type SessionConfiguration = Record<string, unknown>
 
 export interface SessionUser {
   id: string | number
@@ -24,7 +24,7 @@ export interface SessionUser {
   email?: string
   theme?: string
   is_user_admin?: boolean
-  configurations?: SessionConfigurations
+  configuration?: SessionConfiguration
   roles?: SessionRole[]
   permissions?: SessionPermission[]
 }

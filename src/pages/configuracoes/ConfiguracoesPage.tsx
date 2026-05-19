@@ -102,7 +102,10 @@ export function ConfiguracoesPage() {
         >
           {activeTab === 'deactivate' && (
             <Can permission={P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_READ}>
-              <DeactivatePositionsBlock />
+              <DeactivatePositionsBlock
+                key={JSON.stringify(user?.configuration ?? null)}
+                configuration={user?.configuration}
+              />
             </Can>
           )}
 
@@ -117,15 +120,15 @@ export function ConfiguracoesPage() {
       {isDevOrTestEnvironment() ? (
         <section
           className="config-dev-debug"
-          aria-label="Debug: configurations da sessão"
+          aria-label="Debug: configuration da sessão"
         >
           <h2 className="config-dev-debug__title">
             CONFIGURATION (DEVELOPMENT OR TEST ENVIRONMENT ONLY)
           </h2>
           <pre className="config-dev-debug__payload">
-            {user?.configurations == null
-              ? 'configurations null'
-              : formatResponsePayload(user.configurations)}
+            {user?.configuration == null
+              ? 'configuration null'
+              : formatResponsePayload(user.configuration)}
           </pre>
         </section>
       ) : null}

@@ -1,6 +1,22 @@
+import { normalizeConfiguration } from '../lib/userConfigurations'
 import { env } from '../config/env'
-import type { SessionUser } from '../types/session'
+import type { SessionConfiguration, SessionUser } from '../types/session'
 import { ApiError, apiFetch, formatResponsePayload } from './client'
+
+/** Ensures a fresh `configuration` object and maps legacy `configurations` if needed. */
+export function normalizeSessionUser(data: SessionUser): SessionUser {
+  const raw = data as SessionUser & { configurations?: unknown }
+  const source = raw.configuration ?? raw.configurations
+
+  const normalized = normalizeConfiguration(
+    source as SessionConfiguration | string | null | undefined,
+  )
+
+  const configuration = normalized ? { ...normalized } : undefined
+
+  const { configurations: _legacy, configuration: _current, ...rest } = raw
+  return { ...rest, configuration }
+}
 
 export async function fetchSession(): Promise<SessionUser> {
   const response = await apiFetch(env.sessionPath)
@@ -31,5 +47,5 @@ export async function fetchSession(): Promise<SessionUser> {
     )
   }
 
-  return data as SessionUser
+  return normalizeSessionUser(data as SessionUser)
 }

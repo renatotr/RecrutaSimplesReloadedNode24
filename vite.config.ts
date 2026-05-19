@@ -22,6 +22,11 @@ export default defineConfig(({ mode }) => {
           changeOrigin: true,
           secure: false,
         },
+        '/painel': {
+          target: legacyOrigin,
+          changeOrigin: true,
+          secure: false,
+        },
       },
     },
   }

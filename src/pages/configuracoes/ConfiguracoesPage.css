@@ -164,6 +164,10 @@
   color: #047857;
 }
 
+.page--config .config-block__feedback--error {
+  color: #b91c1c;
+}
+
 .config-dev-debug {
   margin-top: 1rem;
   padding: 1rem 1.25rem;

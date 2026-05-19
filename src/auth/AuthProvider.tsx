@@ -23,6 +23,7 @@ export interface AuthContextValue {
   errorMessage: string | null
   errorDetails: string | null
   retry: () => void
+  refreshSession: () => Promise<SessionUser>
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
@@ -36,6 +37,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const retry = useCallback(() => {
     setAttempt((n) => n + 1)
+  }, [])
+
+  const refreshSession = useCallback(async () => {
+    const session = await fetchSession()
+    setUser(session)
+    return session
   }, [])
 
   useEffect(() => {
@@ -94,8 +101,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       errorMessage,
       errorDetails,
       retry,
+      refreshSession,
     }),
-    [status, user, permissionIndex, errorMessage, errorDetails, retry],
+    [
+      status,
+      user,
+      permissionIndex,
+      errorMessage,
+      errorDetails,
+      retry,
+      refreshSession,
+    ],
   )
 
   return (

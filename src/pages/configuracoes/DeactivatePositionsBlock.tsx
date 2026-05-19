@@ -1,38 +1,93 @@
-import { useId, useState, type FormEvent } from 'react'
+import { useEffect, useId, useMemo, useState, type FormEvent } from 'react'
+import { ApiError } from '../../api/client'
+import { saveUserConfiguration } from '../../api/userConfiguration'
+import { useAuth } from '../../auth/useAuth'
 import { usePermission } from '../../auth/usePermission'
 import { P } from '../../config/permissions'
+import {
+  buildConfigurationWithDeactivateOldPositions,
+  deactivateFormValuesFromSession,
+  readDeactivateOldPositions,
+} from '../../lib/userConfigurations'
+import type { SessionConfiguration } from '../../types/session'
 
-export function DeactivatePositionsBlock() {
+type Feedback = { kind: 'success' | 'error'; message: string }
+
+interface DeactivatePositionsBlockProps {
+  configuration?: SessionConfiguration | null
+}
+
+export function DeactivatePositionsBlock({
+  configuration,
+}: DeactivatePositionsBlockProps) {
   const autoDeactivateId = useId()
   const daysId = useId()
+  const { user, refreshSession } = useAuth()
   const { hasPermission } = usePermission()
   const canWrite = hasPermission(P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_WRITE)
 
-  const [autoDeactivate, setAutoDeactivate] = useState(false)
-  const [daysOld, setDaysOld] = useState('')
+  const formFromSession = useMemo(
+    () => deactivateFormValuesFromSession(configuration),
+    [configuration],
+  )
+
+  const [autoDeactivate, setAutoDeactivate] = useState(
+    () => formFromSession.enabled,
+  )
+  const [daysOld, setDaysOld] = useState(() => formFromSession.ageDays)
   const [saving, setSaving] = useState(false)
-  const [feedback, setFeedback] = useState<string | null>(null)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
+
+  useEffect(() => {
+    setAutoDeactivate(formFromSession.enabled)
+    setDaysOld(formFromSession.ageDays)
+  }, [formFromSession.enabled, formFromSession.ageDays])
 
   const parsedDays = Number.parseInt(daysOld, 10)
   const daysValid =
     !autoDeactivate || (Number.isFinite(parsedDays) && parsedDays > 0)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!canWrite || !daysValid) return
+
+    const existing = readDeactivateOldPositions(user?.configuration)
+    const age =
+      autoDeactivate && Number.isFinite(parsedDays) && parsedDays > 0
+        ? parsedDays
+        : (existing?.age ?? parsedDays)
+
+    const patch = {
+      enabled: autoDeactivate,
+      age: Number.isFinite(age) && age > 0 ? age : 1,
+    }
+
+    const merged = buildConfigurationWithDeactivateOldPositions(
+      user?.configuration,
+      patch,
+    )
 
     setSaving(true)
     setFeedback(null)
 
-    // TODO: persist via legacy API when endpoint is available
-    const payload = {
-      autoDeactivate,
-      daysOld: autoDeactivate ? parsedDays : null,
+    try {
+      await saveUserConfiguration(merged)
+      await refreshSession()
+      setFeedback({
+        kind: 'success',
+        message: 'Configurações atualizadas com sucesso',
+      })
+    } catch (error) {
+      const message =
+        error instanceof ApiError
+          ? (error.details ?? error.message)
+          : error instanceof Error
+            ? error.message
+            : 'Erro ao salvar as configurações'
+      setFeedback({ kind: 'error', message })
+    } finally {
+      setSaving(false)
     }
-    console.info('[configuracoes] deactivate positions', payload)
-
-    setSaving(false)
-    setFeedback('Configuração salva localmente (integração com API pendente).')
   }
 
   return (
@@ -106,8 +161,13 @@ export function DeactivatePositionsBlock() {
         </div>
 
         {feedback ? (
-          <p className="config-block__feedback" role="status">
-            {feedback}
+          <p
+            className={`config-block__feedback${
+              feedback.kind === 'error' ? ' config-block__feedback--error' : ''
+            }`}
+            role="status"
+          >
+            {feedback.message}
           </p>
         ) : null}
       </form>
