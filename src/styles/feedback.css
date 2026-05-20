@@ -1,0 +1,22 @@
+/**
+ * Reusable inline status messages (success / error).
+ * Usage: <p class="rs-feedback rs-feedback--success" role="status">…</p>
+ */
+.rs-feedback {
+  display: inline-block;
+  margin: 0;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--rs-feedback-text);
+  border-radius: 6px;
+}
+
+.rs-feedback--success {
+  background: var(--rs-feedback-success-bg);
+}
+
+.rs-feedback--error {
+  background: var(--rs-feedback-error-bg);
+}

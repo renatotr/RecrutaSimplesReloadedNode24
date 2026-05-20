@@ -1,7 +1,21 @@
+import { env } from '../config/env'
 import type { SessionConfiguration } from '../types/session'
 import { ApiError, apiFetch, formatResponsePayload } from './client'
 
 const PANEL_CONFIGURATION_PATH = '/painel/configuracoes'
+
+/** Browser URL and legacy target (dev: Vite proxy destination). */
+export function getSaveConfigurationUrls(path: string): {
+  browserUrl: string
+  legacyUrl: string
+} {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const browserUrl = path.startsWith('http')
+    ? path
+    : `${env.apiBaseUrl.replace(/\/$/, '')}${normalizedPath}`
+  const legacyUrl = `${env.devLegacyOrigin.replace(/\/$/, '')}${normalizedPath}`
+  return { browserUrl, legacyUrl }
+}
 
 async function readErrorDetails(response: Response): Promise<string> {
   const contentType = response.headers.get('content-type') ?? ''
@@ -31,6 +45,12 @@ export async function saveUserConfiguration(
 ): Promise<void> {
   const configurationJson = encodeURIComponent(JSON.stringify(configuration))
   const path = `${PANEL_CONFIGURATION_PATH}/${configurationJson}`
+
+  if (import.meta.env.DEV) {
+    const { browserUrl, legacyUrl } = getSaveConfigurationUrls(path)
+    console.info('[Salvar] Browser request:', browserUrl)
+    console.info('[Salvar] Legacy (after Vite proxy):', legacyUrl)
+  }
 
   const response = await apiFetch(path, { method: 'GET' })
 

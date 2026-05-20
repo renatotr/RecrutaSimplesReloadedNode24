@@ -1,5 +1,6 @@
 @import './styles/theme.css';
 @import './styles/rs-layout.css';
+@import './styles/feedback.css';
 
 :root {
   --text: #4b5563;

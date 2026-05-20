@@ -13,6 +13,20 @@ import type { SessionConfiguration } from '../../types/session'
 
 type Feedback = { kind: 'success' | 'error'; message: string }
 
+function formatSaveConfigurationError(error: unknown): string {
+  let detail: string
+
+  if (error instanceof ApiError) {
+    detail = error.details?.trim() || error.message
+  } else if (error instanceof Error) {
+    detail = error.message
+  } else {
+    detail = String(error)
+  }
+
+  return `Erro ao salvar a configuração: ${detail}`
+}
+
 interface DeactivatePositionsBlockProps {
   configuration?: SessionConfiguration | null
 }
@@ -78,13 +92,10 @@ export function DeactivatePositionsBlock({
         message: 'Configurações atualizadas com sucesso',
       })
     } catch (error) {
-      const message =
-        error instanceof ApiError
-          ? (error.details ?? error.message)
-          : error instanceof Error
-            ? error.message
-            : 'Erro ao salvar as configurações'
-      setFeedback({ kind: 'error', message })
+      setFeedback({
+        kind: 'error',
+        message: formatSaveConfigurationError(error),
+      })
     } finally {
       setSaving(false)
     }
@@ -99,6 +110,10 @@ export function DeactivatePositionsBlock({
         <p className="config-block__description">
           Define se vagas antigas devem ser desativadas automaticamente e após
           quantos dias da publicação.
+        </p>
+        <br />
+        <p className="config-block__description">
+          <b> Importante:</b> As vagas serão automaticamente desativadas UMA VEZ POR DIA, à 00:01
         </p>
       </header>
 
@@ -162,8 +177,10 @@ export function DeactivatePositionsBlock({
 
         {feedback ? (
           <p
-            className={`config-block__feedback${
-              feedback.kind === 'error' ? ' config-block__feedback--error' : ''
+            className={`rs-feedback${
+              feedback.kind === 'error'
+                ? ' rs-feedback--error'
+                : ' rs-feedback--success'
             }`}
             role="status"
           >

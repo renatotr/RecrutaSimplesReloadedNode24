@@ -41,6 +41,11 @@
   --rs-btn-primary-hover: #3da89e;
   --rs-btn-primary-text: #ffffff;
 
+  /* Inline feedback messages (success / error badges) */
+  --rs-feedback-success-bg: #059669;
+  --rs-feedback-error-bg: #b91c1c;
+  --rs-feedback-text: #ffffff;
+
   /* Typography */
   --rs-font: 'Segoe UI', system-ui, Roboto, sans-serif;
 }

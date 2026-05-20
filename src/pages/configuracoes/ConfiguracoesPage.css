@@ -158,16 +158,6 @@
   color: var(--rs-body-text-muted);
 }
 
-.page--config .config-block__feedback {
-  margin: 0;
-  font-size: 0.875rem;
-  color: #047857;
-}
-
-.page--config .config-block__feedback--error {
-  color: #b91c1c;
-}
-
 .config-dev-debug {
   margin-top: 1rem;
   padding: 1rem 1.25rem;
