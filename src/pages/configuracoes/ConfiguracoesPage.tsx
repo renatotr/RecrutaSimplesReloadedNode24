@@ -11,7 +11,9 @@ import { formatResponsePayload } from '../../api/client'
 import { useAuth } from '../../auth/useAuth'
 import { P } from '../../config/permissions'
 import { DeactivatePositionsBlock } from './DeactivatePositionsBlock'
+import { DeactivationReportBlock } from './DeactivationReportBlock'
 import './ConfiguracoesPage.css'
+import './DeactivationReportBlock.css'
 
 function UserBannerLabel({
   name,
@@ -102,7 +104,15 @@ export function ConfiguracoesPage() {
         >
           {activeTab === 'deactivate' && (
             <Can permission={P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_READ}>
-              <DeactivatePositionsBlock />
+              <div className="config-deactivate-tab">
+                <DeactivatePositionsBlock />
+                <div
+                  className="config-section-separator"
+                  role="separator"
+                  aria-label="Relatório de desativações"
+                />
+                <DeactivationReportBlock />
+              </div>
             </Can>
           )}
 
@@ -116,7 +126,7 @@ export function ConfiguracoesPage() {
         </div>
       </article>
 
-      {isDevOrTestEnvironment() ? (
+      {activeTab === 'deactivate' && isDevOrTestEnvironment() ? (
         <section
           className="config-dev-debug"
           aria-label="Debug: configuration da sessão"

@@ -31,6 +31,9 @@ export const env = {
   apiPathPrefix,
   sessionPath: buildApiPath(sessionRelative),
   userConfigurationPath: buildApiPath('/user/configuration'),
+  changeJobStatusLogsByThemePath: buildApiPath(
+    '/change-job-status-logs/get-logs-by-theme',
+  ),
   devLegacyOrigin:
     import.meta.env.VITE_DEV_LEGACY_ORIGIN?.trim() || 'https://localhost:3001',
 } as const

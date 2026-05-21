@@ -158,6 +158,33 @@
   color: var(--rs-body-text-muted);
 }
 
+.page--config .config-deactivate-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.page--config .config-section-separator {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 2px solid var(--rs-tab-divider, #d8d8d8);
+  position: relative;
+}
+
+.page--config .config-section-separator::after {
+  content: 'Relatório de desativações';
+  position: absolute;
+  top: -0.65rem;
+  left: 0;
+  padding: 0 0.5rem 0 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rs-body-text-muted);
+  background: var(--rs-surface);
+}
+
 .config-dev-debug {
   margin-top: 1rem;
   padding: 1rem 1.25rem;

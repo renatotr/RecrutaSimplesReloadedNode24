@@ -1,0 +1,356 @@
+/* Deactivation report — Configurações tab (mock UI) */
+
+.page--config .deact-report {
+  padding-top: 0.25rem;
+}
+
+.page--config .deact-report__header {
+  margin-bottom: 1.25rem;
+}
+
+.page--config .deact-report__title {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--rs-body-text);
+}
+
+.page--config .deact-report__description {
+  margin: 0 0 0.5rem;
+  font-size: 0.875rem;
+  color: var(--rs-body-text-muted);
+  line-height: 1.45;
+  max-width: 52rem;
+}
+
+.page--config .deact-report__mock-badge {
+  display: inline-block;
+  margin: 0;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 4px;
+}
+
+.page--config .deact-report__filters {
+  padding: 1rem 1.15rem;
+  margin-bottom: 1.25rem;
+  background: #f8fafc;
+  border: 1px solid var(--rs-border);
+  border-radius: 8px;
+}
+
+.page--config .deact-report__filters-title {
+  margin: 0 0 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.page--config .deact-report__fieldset {
+  margin: 0 0 1rem;
+  padding: 0;
+  border: none;
+}
+
+.page--config .deact-report__legend {
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--rs-body-text);
+}
+
+.page--config .deact-report__radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.page--config .deact-report__radio {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.page--config .deact-report__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.page--config .deact-report__field--grow {
+  max-width: 28rem;
+}
+
+.page--config .deact-report__field-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.page--config .deact-report__field-hint {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--rs-body-text-muted);
+}
+
+.page--config .deact-report__input {
+  max-width: 12rem;
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+  font-size: 0.875rem;
+  border: 1px solid var(--rs-input-border);
+  border-radius: 6px;
+  background: var(--rs-surface);
+}
+
+.page--config .deact-report__input--wide {
+  max-width: 100%;
+}
+
+.page--config .deact-report__date-picker {
+  display: inline-block;
+  max-width: 12rem;
+}
+
+.page--config .deact-report__input--date {
+  min-width: 10.5rem;
+  cursor: pointer;
+}
+
+.page--config .deact-report__date-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.page--config .deact-report__sort-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.page--config .deact-report__sort-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  padding: 0.55rem 0.75rem;
+  background: var(--rs-surface);
+  border: 1px solid var(--rs-input-border);
+  border-radius: 8px;
+}
+
+.page--config .deact-report__sort-row--active {
+  border-color: var(--rs-action-teal);
+  background: #f0fdfa;
+}
+
+.page--config .deact-report__sort-row-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.page--config .deact-report__sort-row-check input {
+  accent-color: var(--rs-action-teal);
+}
+
+.page--config .deact-report__sort-direction {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+}
+
+.page--config .deact-report__sort-direction[aria-disabled='true'] {
+  opacity: 0.45;
+}
+
+.page--config .deact-report__sort-direction-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.page--config .deact-report__sort-direction-option input {
+  accent-color: var(--rs-action-teal);
+}
+
+.page--config .deact-report__sort-direction-option input:disabled {
+  cursor: not-allowed;
+}
+
+.page--config .deact-report__filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.page--config .deact-report__btn {
+  padding: 0.5rem 1.1rem;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.page--config .deact-report__btn--primary {
+  color: var(--rs-btn-primary-text);
+  background: var(--rs-btn-primary-bg);
+}
+
+.page--config .deact-report__btn--primary:hover {
+  background: var(--rs-btn-primary-hover);
+}
+
+.page--config .deact-report__btn--ghost {
+  color: var(--rs-body-text);
+  background: var(--rs-surface);
+  border-color: var(--rs-input-border);
+}
+
+.page--config .deact-report__results {
+  border: 1px solid var(--rs-border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--rs-surface);
+}
+
+.page--config .deact-report__results-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(180deg, #f1f5f9 0%, #e8eef4 100%);
+  border-bottom: 1px solid var(--rs-border);
+}
+
+.page--config .deact-report__results-count {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--rs-body-text);
+}
+
+.page--config .deact-report__export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #fff;
+  background: #217346;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.page--config .deact-report__export-btn:hover:not(:disabled) {
+  background: #1a5c38;
+}
+
+.page--config .deact-report__export-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.page--config .deact-report__excel-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.page--config .deact-report__table-wrap {
+  overflow-x: auto;
+  max-height: 22rem;
+}
+
+.page--config .deact-report__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.page--config .deact-report__table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #334155;
+  color: #f8fafc;
+}
+
+.page--config .deact-report__table th {
+  padding: 0.65rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.page--config .deact-report__table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: var(--rs-body-text);
+  vertical-align: middle;
+}
+
+.page--config .deact-report__table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.page--config .deact-report__table tbody tr:hover {
+  background: #e0f2f1;
+}
+
+.page--config .deact-report__cell-title {
+  font-weight: 500;
+  min-width: 12rem;
+}
+
+.page--config .deact-report__cell-age,
+.page--config .deact-report__table th.deact-report__cell-age {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.page--config .deact-report__status {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  border-radius: 4px;
+}
+
+.page--config .deact-report__status--from {
+  color: #1e40af;
+  background: #dbeafe;
+}
+
+.page--config .deact-report__status--to {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.page--config .deact-report__empty {
+  padding: 2rem 1rem !important;
+  text-align: center;
+  color: var(--rs-body-text-muted);
+}
