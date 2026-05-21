@@ -184,6 +184,30 @@ export function buildConfigurationWithDeactivateOldPositions(
   )
 }
 
+/** One configuration block for POST /user/configuration (single key per item). */
+export function configurationBlockEntry(
+  blockKey: string,
+  blockValue: unknown,
+): Record<string, unknown> {
+  return { [blockKey]: blockValue }
+}
+
+export function mergeConfigurationBlocks(
+  blocks: unknown[],
+): SessionConfiguration | null {
+  if (!Array.isArray(blocks)) return null
+
+  const merged: SessionConfiguration = {}
+
+  for (const item of blocks) {
+    if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+      Object.assign(merged, item as SessionConfiguration)
+    }
+  }
+
+  return merged
+}
+
 export function deactivateFormValuesFromSession(
   configuration: SessionConfiguration | string | null | undefined,
 ): { enabled: boolean; ageDays: string } {

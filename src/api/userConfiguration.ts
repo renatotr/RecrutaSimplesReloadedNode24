@@ -1,19 +1,22 @@
+import { mergeConfigurationBlocks } from '../lib/userConfigurations'
 import { env } from '../config/env'
 import type { SessionConfiguration } from '../types/session'
+import type { SessionUser } from '../types/session'
 import { ApiError, apiFetch, formatResponsePayload } from './client'
+import { normalizeSessionUser } from './session'
 
-const PANEL_CONFIGURATION_PATH = '/painel/configuracoes'
+const USER_CONFIGURATION_PATH = env.userConfigurationPath
+
+/** One block in the POST body array, e.g. `{ "deactivate_old_positions": { ... } }`. */
+export type ConfigurationBlockEntry = Record<string, unknown>
 
 /** Browser URL and legacy target (dev: Vite proxy destination). */
-export function getSaveConfigurationUrls(path: string): {
+export function getUserConfigurationUrls(): {
   browserUrl: string
   legacyUrl: string
 } {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`
-  const browserUrl = path.startsWith('http')
-    ? path
-    : `${env.apiBaseUrl.replace(/\/$/, '')}${normalizedPath}`
-  const legacyUrl = `${env.devLegacyOrigin.replace(/\/$/, '')}${normalizedPath}`
+  const browserUrl = `${env.apiBaseUrl.replace(/\/$/, '')}${USER_CONFIGURATION_PATH}`
+  const legacyUrl = `${env.devLegacyOrigin.replace(/\/$/, '')}${USER_CONFIGURATION_PATH}`
   return { browserUrl, legacyUrl }
 }
 
@@ -40,19 +43,78 @@ async function readErrorDetails(response: Response): Promise<string> {
   }
 }
 
-export async function saveUserConfiguration(
-  configuration: SessionConfiguration,
-): Promise<void> {
-  const configurationJson = encodeURIComponent(JSON.stringify(configuration))
-  const path = `${PANEL_CONFIGURATION_PATH}/${configurationJson}`
-
-  if (import.meta.env.DEV) {
-    const { browserUrl, legacyUrl } = getSaveConfigurationUrls(path)
-    console.info('[Salvar] Browser request:', browserUrl)
-    console.info('[Salvar] Legacy (after Vite proxy):', legacyUrl)
+function extractConfigurationFromResponse(data: unknown): SessionConfiguration | null {
+  if (Array.isArray(data)) {
+    return mergeConfigurationBlocks(data)
   }
 
-  const response = await apiFetch(path, { method: 'GET' })
+  if (typeof data !== 'object' || data === null) return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.configuration != null) {
+    if (typeof record.configuration === 'object' && !Array.isArray(record.configuration)) {
+      return record.configuration as SessionConfiguration
+    }
+    if (Array.isArray(record.configuration)) {
+      return mergeConfigurationBlocks(record.configuration)
+    }
+  }
+
+  if (record.session != null && typeof record.session === 'object') {
+    const session = normalizeSessionUser(record.session as SessionUser)
+    return session.configuration ?? null
+  }
+
+  if (record.user != null && typeof record.user === 'object') {
+    const user = normalizeSessionUser(record.user as SessionUser)
+    return user.configuration ?? null
+  }
+
+  return record as SessionConfiguration
+}
+
+export async function getUserConfiguration(): Promise<SessionConfiguration | null> {
+  if (import.meta.env.DEV) {
+    const { browserUrl, legacyUrl } = getUserConfigurationUrls()
+    console.info('[user/configuration] GET browser →', browserUrl)
+    console.info('[user/configuration] GET legacy →', legacyUrl)
+  }
+
+  const response = await apiFetch(USER_CONFIGURATION_PATH, { method: 'GET' })
+
+  if (!response.ok) {
+    const details = await readErrorDetails(response)
+    throw new ApiError(
+      'Não foi possível carregar as configurações',
+      response.status,
+      details,
+    )
+  }
+
+  const data: unknown = await response.json()
+  return extractConfigurationFromResponse(data)
+}
+
+/**
+ * POST body: JSON array of blocks to update, e.g.
+ * `[{ "deactivate_old_positions": { "enabled": true, "age": 90 } }]`
+ */
+export async function saveUserConfiguration(
+  blocks: ConfigurationBlockEntry[],
+): Promise<void> {
+  if (import.meta.env.DEV) {
+    const { browserUrl, legacyUrl } = getUserConfigurationUrls()
+    console.info('[user/configuration] POST browser →', browserUrl)
+    console.info('[user/configuration] POST legacy →', legacyUrl)
+    console.info('[user/configuration] POST body →', JSON.stringify(blocks))
+  }
+
+  const response = await apiFetch(USER_CONFIGURATION_PATH, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(blocks),
+  })
 
   if (response.status === 200) return
 

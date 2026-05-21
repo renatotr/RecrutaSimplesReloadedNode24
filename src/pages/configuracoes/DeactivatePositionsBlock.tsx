@@ -4,8 +4,10 @@ import { saveUserConfiguration } from '../../api/userConfiguration'
 import { useAuth } from '../../auth/useAuth'
 import { usePermission } from '../../auth/usePermission'
 import { P } from '../../config/permissions'
+import { CONFIGURATION_KEYS } from '../../config/configurationKeys'
 import {
   buildConfigurationWithDeactivateOldPositions,
+  configurationBlockEntry,
   deactivateFormValuesFromSession,
   readDeactivateOldPositions,
 } from '../../lib/userConfigurations'
@@ -80,7 +82,12 @@ export function DeactivatePositionsBlock() {
     setFeedback(null)
 
     try {
-      await saveUserConfiguration(merged)
+      await saveUserConfiguration([
+        configurationBlockEntry(
+          CONFIGURATION_KEYS.DEACTIVATE_OLD_POSITIONS,
+          patch,
+        ),
+      ])
       await refreshSession()
       patchConfiguration(merged)
       setFeedback({
