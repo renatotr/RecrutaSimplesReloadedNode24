@@ -9,8 +9,6 @@ import {
   deactivateFormValuesFromSession,
   readDeactivateOldPositions,
 } from '../../lib/userConfigurations'
-import type { SessionConfiguration } from '../../types/session'
-
 type Feedback = { kind: 'success' | 'error'; message: string }
 
 function formatSaveConfigurationError(error: unknown): string {
@@ -27,22 +25,19 @@ function formatSaveConfigurationError(error: unknown): string {
   return `Erro ao salvar a configuração: ${detail}`
 }
 
-interface DeactivatePositionsBlockProps {
-  configuration?: SessionConfiguration | null
-}
-
-export function DeactivatePositionsBlock({
-  configuration,
-}: DeactivatePositionsBlockProps) {
+export function DeactivatePositionsBlock() {
   const autoDeactivateId = useId()
   const daysId = useId()
-  const { user, refreshSession } = useAuth()
+  const { user, refreshSession, patchConfiguration } = useAuth()
+  const configuration = user?.configuration
   const { hasPermission } = usePermission()
   const canWrite = hasPermission(P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_WRITE)
 
+  const configurationSnapshot = JSON.stringify(configuration ?? null)
+
   const formFromSession = useMemo(
     () => deactivateFormValuesFromSession(configuration),
-    [configuration],
+    [configurationSnapshot],
   )
 
   const [autoDeactivate, setAutoDeactivate] = useState(
@@ -55,7 +50,7 @@ export function DeactivatePositionsBlock({
   useEffect(() => {
     setAutoDeactivate(formFromSession.enabled)
     setDaysOld(formFromSession.ageDays)
-  }, [formFromSession.enabled, formFromSession.ageDays])
+  }, [formFromSession.enabled, formFromSession.ageDays, configurationSnapshot])
 
   const parsedDays = Number.parseInt(daysOld, 10)
   const daysValid =
@@ -87,6 +82,7 @@ export function DeactivatePositionsBlock({
     try {
       await saveUserConfiguration(merged)
       await refreshSession()
+      patchConfiguration(merged)
       setFeedback({
         kind: 'success',
         message: 'Configurações atualizadas com sucesso',

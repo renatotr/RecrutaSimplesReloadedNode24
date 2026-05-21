@@ -1,5 +1,5 @@
 /**
- * Shape returned by GET {VITE_SESSION_PATH} on success (200).
+ * Shape returned by GET session validation (VITE_API_PATH_PREFIX + VITE_SESSION_RELATIVE_PATH) on success (200).
  * Adjust fields to match your legacy API — the frontend only requires `id`.
  */
 

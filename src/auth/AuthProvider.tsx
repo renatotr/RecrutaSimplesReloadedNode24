@@ -8,7 +8,7 @@ import {
 } from 'react'
 import { fetchSession } from '../api/session'
 import { ApiError } from '../api/client'
-import type { SessionUser } from '../types/session'
+import type { SessionConfiguration, SessionUser } from '../types/session'
 import {
   buildPermissionIndex,
   type PermissionIndex,
@@ -24,6 +24,7 @@ export interface AuthContextValue {
   errorDetails: string | null
   retry: () => void
   refreshSession: () => Promise<SessionUser>
+  patchConfiguration: (configuration: SessionConfiguration) => void
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null)
@@ -44,6 +45,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(session)
     return session
   }, [])
+
+  const patchConfiguration = useCallback(
+    (configuration: SessionConfiguration) => {
+      setUser((current) =>
+        current ? { ...current, configuration: { ...configuration } } : current,
+      )
+    },
+    [],
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -102,6 +112,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       errorDetails,
       retry,
       refreshSession,
+      patchConfiguration,
     }),
     [
       status,
@@ -111,6 +122,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       errorDetails,
       retry,
       refreshSession,
+      patchConfiguration,
     ],
   )
 

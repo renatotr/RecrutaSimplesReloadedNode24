@@ -6,7 +6,10 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const legacyOrigin = env.VITE_DEV_LEGACY_ORIGIN || 'https://localhost:3001'
-  const sessionPath = (env.VITE_SESSION_PATH || '/api/me').replace(/^\/?/, '/')
+  const apiPathPrefix = (env.VITE_API_PATH_PREFIX || '/api/reloaded').replace(
+    /\/$/,
+    '',
+  )
   const nodeEnv = env.NODE_ENV ?? process.env.NODE_ENV ?? mode
 
   return {
@@ -17,7 +20,7 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 9001,
       proxy: {
-        [sessionPath]: {
+        [apiPathPrefix]: {
           target: legacyOrigin,
           changeOrigin: true,
           secure: false,

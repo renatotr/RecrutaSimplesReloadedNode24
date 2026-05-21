@@ -102,10 +102,7 @@ export function ConfiguracoesPage() {
         >
           {activeTab === 'deactivate' && (
             <Can permission={P.CONFIGURATION_OPTIONS_DEACTIVATE_EMAIL_READ}>
-              <DeactivatePositionsBlock
-                key={JSON.stringify(user?.configuration ?? null)}
-                configuration={user?.configuration}
-              />
+              <DeactivatePositionsBlock />
             </Can>
           )}
 
