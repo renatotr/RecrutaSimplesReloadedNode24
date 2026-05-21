@@ -108,7 +108,9 @@ export function ConfiguracoesPage() {
 
           {activeTab === 'password' && (
             <p className="rs-card__body--muted">
-              Bloco &quot;Alterar senha&quot; — em desenvolvimento.
+              {user?.loginType === 'adlogin'
+                ? 'Seu login é realizado via Microsoft e sua senha só pode ser alterada através do sistema de autenticação da Microsoft.'
+                : 'Bloco "Alterar senha" — em desenvolvimento.'}
             </p>
           )}
         </div>

@@ -24,6 +24,7 @@ export interface SessionUser {
   email?: string
   theme?: string
   is_user_admin?: boolean
+  loginType?: string
   configuration?: SessionConfiguration
   roles?: SessionRole[]
   permissions?: SessionPermission[]
