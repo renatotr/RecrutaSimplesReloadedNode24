@@ -1,0 +1,69 @@
+version: 0.3
+
+env:
+ variables:
+     NODE_ENV: "test"
+     VITE_API_BASE_URL: "https://test.recrutasimples.com" #Necessary when building the project with Vite, otherwise it will use the default value "http://localhost:3000" and the build will fail because it can't connect to the backend
+     VITE_API_PATH_PREFIX: "/api/reloaded"
+     VITE_SESSION_RELATIVE_PATH: "/api/reloaded/session"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+  #secrets-manager:
+     # key: secret-id:json-key:version-stage:version-id
+     # key: secret-id:json-key:version-stage:version-id
+  #exported-variables:
+     # - variable
+     # - variable
+  #git-credential-helper: yes
+#batch:
+  #fast-fail: true
+  #build-list:
+  #build-matrix:
+  #build-graph:
+phases:
+  install:
+    #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
+    #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
+    #runtime-versions:
+      # name: version
+      # name: version
+    commands:
+    #Não apagar a linha acima "commands:" pois do contrário dará um erro na build informando que a fase install deveria ter mais uma seção
+        # - command
+  pre_build:
+    commands: 
+      - npm cache clean --force
+      - npm ci --only=production
+      - echo "Showing LS"
+      - ls -a
+      # - command
+      # - command
+  build:
+    commands:
+       - npm run build
+      # - command
+  post_build:
+    commands:
+       - echo "Post Build"
+       - ls -a
+      # - command
+#reports:
+  #report-name-or-arn:
+    #files:
+      # - location
+      # - location
+    #base-directory: location
+    #discard-paths: yes
+    #file-format: JunitXml | CucumberJson
+artifacts:
+  files:
+    # - location
+    # - location
+    - '**/*'
+  name: $(date +%Y-%m-%d)
+  #discard-paths: yes
+  #base-directory: location
+#cache:
+  #paths:
+    # - paths
